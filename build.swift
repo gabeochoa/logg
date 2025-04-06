@@ -5,10 +5,61 @@
 import Cocoa
 import SwiftUI
 
+struct Book: Identifiable {
+     let id = UUID()
+     var author: String
+     var name: String
+     var year: String = "2024"
+ }
+
+
+private var books = [
+    Book(author: "John Steinbeck", name: "Grapes of Wrath"),
+    Book(author: "Mei Chen", name: "Harry Potter"),
+    Book(author: "John Green", name: "Looking for Alaska"),
+    Book(author: "John Green", name: "The Fault in the Stars"),
+    Book(author: "John Green", name: "Katherines"),
+]
+
 public func closeButtonAction(){
     exit(0)
 }
 
+
+struct SearchResult: View {
+    var book: Book
+
+    var body: some View {
+        HStack {
+            Text(book.name)
+                .foregroundColor(.primary)
+                .font(.headline)
+            Text(book.author)
+                .foregroundColor(.secondary)
+                .font(.subheadline)
+            Text(
+                "(\(book.year))"
+            )
+                .foregroundColor(.secondary)
+                .font(.subheadline)
+        }
+    }
+}
+
+struct AddSheet : View {
+    var body: some View {
+        VStack {
+            List {
+                ForEach(books) { 
+                    book in SearchResult(book: book)
+                }
+            }
+            Button(action: closeButtonAction){
+                Text("C")
+            }
+        }
+    }
+}
 
 struct ContentView: View {
     @State private var searchSheetOpen: Bool = false
@@ -24,8 +75,7 @@ struct ContentView: View {
                     Text("+")
                 }
                 .sheet(isPresented: $searchSheetOpen){
-                    Text("sheet")
-                    .presentationDetents([.medium, .large])
+                    AddSheet()
                 }
                 Button(action: closeButtonAction){
                     Text("C")
@@ -94,7 +144,7 @@ class AppDelegate<V: View>: NSObject, NSApplicationDelegate, NSWindowDelegate {
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 480, height: 300),
+            contentRect: NSRect(x: 0, y: 0, width: 600, height: 800),
             styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
             backing: .buffered, defer: false)
         window.center()
