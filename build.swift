@@ -45,10 +45,21 @@ struct SearchResult: View {
 struct SearchSheet : View {
     @State private var searchText: String = ""
 
+    var filteredBooks: [Book] {
+        if searchText.isEmpty {
+            return books
+        } else {
+            return books.filter { book in
+                book.name.lowercased().contains(searchText.lowercased()) ||
+                book.author.lowercased().contains(searchText.lowercased())
+            }
+        }
+    }
+
     var body: some View {
         VStack {
             List {
-                ForEach(books) { 
+                ForEach(filteredBooks) { 
                     book in SearchResult(book: book)
                 }
                 .searchable(text: $searchText)
