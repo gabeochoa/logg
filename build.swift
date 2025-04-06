@@ -9,17 +9,12 @@ struct Book: Identifiable {
      let id = UUID()
      var author: String
      var name: String
-     var year: String = "2024"
+     var year: Int = 2024
  }
 
+private var books = getBooks()
 
-private var books = [
-    Book(author: "John Steinbeck", name: "Grapes of Wrath"),
-    Book(author: "Mei Chen", name: "Harry Potter"),
-    Book(author: "John Green", name: "Looking for Alaska"),
-    Book(author: "John Green", name: "The Fault in the Stars"),
-    Book(author: "John Green", name: "Katherines"),
-]
+
 
 public func closeButtonAction(){
     exit(0)
@@ -158,4 +153,42 @@ class AppDelegate<V: View>: NSObject, NSApplicationDelegate, NSWindowDelegate {
         NSApp.activate(ignoringOtherApps: true)
     }
 
+}
+
+func getBooks() -> [Book] {
+    return [
+    Book(author: "John Steinbeck", name: "Grapes of Wrath", year: 1939),
+    Book(author: "George Orwell", name: "1984", year: 1949),
+    Book(author: "Harper Lee", name: "To Kill a Mockingbird", year: 1960),
+    Book(author: "F. Scott Fitzgerald", name: "The Great Gatsby", year: 1925),
+    Book(author: "Jane Austen", name: "Pride and Prejudice", year: 1813),
+    Book(author: "J.K. Rowling", name: "Harry Potter and the Sorcerer's Stone", year: 1997),
+    Book(author: "J.R.R. Tolkien", name: "The Hobbit", year: 1937),
+    Book(author: "Mark Twain", name: "Adventures of Huckleberry Finn", year: 1884),
+    Book(author: "Herman Melville", name: "Moby-Dick", year: 1851),
+    Book(author: "Ray Bradbury", name: "Fahrenheit 451", year: 1953),
+    Book(author: "Leo Tolstoy", name: "War and Peace", year: 1869),
+    Book(author: "Charles Dickens", name: "A Tale of Two Cities", year: 1859),
+    Book(author: "Mary Shelley", name: "Frankenstein", year: 1818),
+    Book(author: "J.D. Salinger", name: "The Catcher in the Rye", year: 1951),
+    Book(author: "Gabriel García Márquez", name: "One Hundred Years of Solitude", year: 1967),
+    Book(author: "Fyodor Dostoevsky", name: "Crime and Punishment", year: 1866),
+    Book(author: "Miguel de Cervantes", name: "Don Quixote", year: 1605),
+    Book(author: "Vladimir Nabokov", name: "Lolita", year: 1955),
+    Book(author: "Kurt Vonnegut", name: "Slaughterhouse-Five", year: 1969),
+    Book(author: "C.S. Lewis", name: "The Lion, the Witch, and the Wardrobe", year: 1950),
+    Book(author: "Aldous Huxley", name: "Brave New World", year: 1932),
+    Book(author: "Ernest Hemingway", name: "The Old Man and the Sea", year: 1952),
+    Book(author: "William Golding", name: "Lord of the Flies", year: 1954),
+    Book(author: "Margaret Atwood", name: "The Handmaid's Tale", year: 1985),
+    Book(author: "Toni Morrison", name: "Beloved", year: 1987),
+    Book(author: "Khaled Hosseini", name: "The Kite Runner", year: 2003),
+    Book(author: "Suzanne Collins", name: "The Hunger Games", year: 2008),
+    Book(author: "F. Scott Fitzgerald", name: "Tender Is the Night", year: 1934),
+    Book(author: "Philip K. Dick", name: "Do Androids Dream of Electric Sheep?", year: 1968),
+    Book(author: "Daphne du Maurier", name: "Rebecca", year: 1938),
+    Book(author: "Douglas Adams", name: "The Hitchhiker's Guide to the Galaxy", year: 1979),
+    Book(author: "J.R.R. Tolkien", name: "The Fellowship of the Ring", year: 1954),
+    Book(author: "Stephen King", name: "The Shining", year: 1977)
+]
 }
