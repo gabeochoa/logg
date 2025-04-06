@@ -76,7 +76,8 @@ struct ContentView: View {
                     Text("+")
                 }
                 .sheet(isPresented: $searchSheetOpen){
-                    AddSheet()
+                    SearchSheet()
+                    .frame(height:300)
                 }
                 Button(action: closeButtonAction){
                     Text("C")
