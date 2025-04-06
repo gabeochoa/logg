@@ -26,19 +26,32 @@ struct SearchResult: View {
 
     var body: some View {
         HStack {
-            Text(book.name)
-                .foregroundColor(.primary)
-                .font(.headline)
-            Text(book.author)
-                .foregroundColor(.secondary)
-                .font(.subheadline)
-            Text(
-                "(\(book.year))"
-            )
-                .foregroundColor(.secondary)
-                .font(.subheadline)
+            HStack {
+                Text(book.name)
+                    .font(.headline)
+                    .foregroundColor(.primary)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+
+                Text(String("(\(book.year))"))
+                    .font(.caption)
+                    .foregroundColor(.gray)
+
+                Text(book.author)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+            }
+            .padding(.leading, 10)
+            .padding(.vertical, 8)
+
+            Spacer()
         }
-        .padding(10)
+        .background(Color.white)
+        .cornerRadius(8)
+        .shadow(radius: 3)
+        .padding([.leading, .trailing], 10)
     }
 }
 
