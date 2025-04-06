@@ -43,6 +43,7 @@ struct SearchResult: View {
                 .foregroundColor(.secondary)
                 .font(.subheadline)
         }
+        .padding(10)
     }
 }
 
