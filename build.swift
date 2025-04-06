@@ -204,6 +204,13 @@ func getBooks() -> [Book] {
     Book(author: "Daphne du Maurier", name: "Rebecca", year: 1938),
     Book(author: "Douglas Adams", name: "The Hitchhiker's Guide to the Galaxy", year: 1979),
     Book(author: "J.R.R. Tolkien", name: "The Fellowship of the Ring", year: 1954),
-    Book(author: "Stephen King", name: "The Shining", year: 1977)
+    Book(author: "Stephen King", name: "The Shining", year: 1977),
+    Book(author: "John Green", name: "The Fault in Our Stars", year: 2012),
+    Book(author: "John Green", name: "Looking for Alaska", year: 2005),
+    Book(author: "John Green", name: "Paper Towns", year: 2008),
+    Book(author: "John Green", name: "An Abundance of Katherines", year: 2006),
+    Book(author: "John Green", name: "Turtles All the Way Down", year: 2017),
+    Book(author: "John Green", name: "Will Grayson, Will Grayson", year: 2010),
+    Book(author: "John Green", name: "The Anthropocene Reviewed", year: 2021)
 ]
 }
