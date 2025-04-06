@@ -42,13 +42,17 @@ struct SearchResult: View {
     }
 }
 
-struct AddSheet : View {
+struct SearchSheet : View {
+    @State private var searchText: String = ""
+
     var body: some View {
         VStack {
             List {
                 ForEach(books) { 
                     book in SearchResult(book: book)
                 }
+                .searchable(text: $searchText)
+                .padding(10)
             }
             Button(action: closeButtonAction){
                 Text("C")
