@@ -77,6 +77,7 @@ struct SearchResult: View {
 }
 
 struct SearchSheet : View {
+    @Binding var bookPage: UUID?
     @State private var searchText: String = ""
 
     var filteredBooks: [Book] {
@@ -94,7 +95,10 @@ struct SearchSheet : View {
         VStack {
             List {
                 ForEach(filteredBooks) { 
-                    book in SearchResult(book: book)
+                    book in 
+                    Button(action: { bookPage = book.id }) {
+                        SearchResult(book: book)
+                    }
                 }
                 .searchable(text: $searchText)
                 .padding(10)
@@ -107,6 +111,7 @@ struct SearchSheet : View {
 }
 
 struct ContentView: View {
+    @State private var activeBookPage: UUID? = nil
     @State private var searchSheetOpen: Bool = false
     var body: some View {
         VStack {
@@ -120,7 +125,7 @@ struct ContentView: View {
                     Text("+")
                 }
                 .sheet(isPresented: $searchSheetOpen){
-                    SearchSheet()
+                    SearchSheet(bookPage: $activeBookPage)
                     .frame(height:300)
                 }
                 Button(action: closeButtonAction){
