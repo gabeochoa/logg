@@ -76,9 +76,27 @@ struct SearchResult: View {
     }
 }
 
+struct BookDetailPage: View {
+    var book: Book
+
+    var body: some View {
+        VStack {
+            Text(book.name)
+                .font(.largeTitle)
+            Text(book.author)
+                .font(.title)
+            Text("\(book.year)")
+                .font(.body)
+        }
+    }
+}
+
 struct SearchSheet : View {
     @Binding var bookPage: UUID?
     @State private var searchText: String = ""
+
+    @Environment(\.dismiss) var dismiss  
+
 
     var filteredBooks: [Book] {
         if searchText.isEmpty {
@@ -96,7 +114,10 @@ struct SearchSheet : View {
             List {
                 ForEach(filteredBooks) { 
                     book in 
-                    Button(action: { bookPage = book.id }) {
+                    Button(action: { 
+                        bookPage = book.id 
+                        dismiss()
+                    }) {
                         SearchResult(book: book)
                     }
                 }
@@ -113,6 +134,11 @@ struct SearchSheet : View {
 struct ContentView: View {
     @State private var activeBookPage: UUID? = nil
     @State private var searchSheetOpen: Bool = false
+
+    var hasActiveBookPage: Bool {
+        return activeBookPage != nil
+    }
+
     var body: some View {
         VStack {
             HStack {
@@ -127,6 +153,17 @@ struct ContentView: View {
                 .sheet(isPresented: $searchSheetOpen){
                     SearchSheet(bookPage: $activeBookPage)
                     .frame(height:300)
+                }
+                .sheet(isPresented: Binding<Bool>(
+                    get: { activeBookPage != nil },
+                    set: { newValue in
+                        if !newValue { activeBookPage = nil } 
+                    })) {
+                    if let bookID = activeBookPage {
+                        BookDetailPage(
+                            book: bookFromID(id: bookID)
+                        )
+                    }
                 }
                 Button(action: closeButtonAction){
                     Text("Close")
@@ -252,4 +289,13 @@ func getBooks() -> [Book] {
     Book(author: "John Green", name: "Will Grayson, Will Grayson", year: 2010),
     Book(author: "John Green", name: "The Anthropocene Reviewed", year: 2021)
 ]
+}
+
+func bookFromID(id: UUID) -> Book {
+    var results = (getBooks().filter { book in book.id == id })
+    if(results.isEmpty){
+        print("Was not able to find ", id)
+        return getBooks()[0]
+    }
+    return results[0]
 }
