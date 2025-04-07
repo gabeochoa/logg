@@ -24,17 +24,27 @@ struct Review: Identifiable {
      let content: String
 }
 
-private var books = getBooks()
+struct Data {
+    let books: [Book]
+    let users: [User]
+    let reviews: [Review]
 
-private var users = [
-    User(name: "choicehoney"),
-    User(name: "bagelseed"),
-]
+    init() {
+        self.books = getBooks()  
+        
+        self.users = [
+            User(name: "choicehoney"),
+            User(name: "bagelseed"),
+        ]
+        
+        self.reviews = [
+            Review(book_id: books[0].id, user_id: users[0].id, content: "Review 1"),
+            Review(book_id: books[0].id, user_id: users[1].id, content: "Review 2 🤷"),
+        ]
+    }
+}
 
-private var reviews = [
-    Review(book_id: books[0].id, user_id: users[0].id, content: "Review 1"),
-    Review(book_id: books[0].id, user_id: users[1].id, content: "Review 2 🤷"),
-]
+var data: Data = Data()
 
 
 public func closeButtonAction(){
@@ -100,9 +110,9 @@ struct SearchSheet : View {
 
     var filteredBooks: [Book] {
         if searchText.isEmpty {
-            return books
+            return data.books
         } else {
-            return books.filter { book in
+            return data.books.filter { book in
                 book.name.lowercased().contains(searchText.lowercased()) ||
                 book.author.lowercased().contains(searchText.lowercased())
             }
@@ -292,10 +302,10 @@ func getBooks() -> [Book] {
 }
 
 func bookFromID(id: UUID) -> Book {
-    var results = (books.filter { book in book.id == id })
+    var results = (data.books.filter { book in book.id == id })
     if(results.isEmpty){
         print("Was not able to find ", id)
-        return books[0]
+        return data.books[0]
     }
     return results[0]
 }
