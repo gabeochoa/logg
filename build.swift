@@ -46,11 +46,9 @@ struct Data {
 
 var data: Data = Data()
 
-
 public func closeButtonAction(){
     exit(0)
 }
-
 
 struct SearchResult: View {
     var book: Book
@@ -106,7 +104,6 @@ struct SearchSheet : View {
     @State private var searchText: String = ""
 
     @Environment(\.dismiss) var dismiss  
-
 
     var filteredBooks: [Book] {
         if searchText.isEmpty {
