@@ -12,8 +12,29 @@ struct Book: Identifiable {
      var year: Int = 2024
  }
 
+struct User: Identifiable {
+    let id = UUID()
+    let name: String 
+}
+
+struct Review: Identifiable {
+     let id:UUID = UUID()
+     let book_id:UUID
+     let user_id:UUID
+     let content: String
+}
+
 private var books = getBooks()
 
+private var users = [
+    User(name: "choicehoney"),
+    User(name: "bagelseed"),
+]
+
+private var reviews = [
+    Review(book_id: books[0].id, user_id: users[0].id, content: "Review 1"),
+    Review(book_id: books[0].id, user_id: users[1].id, content: "Review 2 🤷"),
+]
 
 
 public func closeButtonAction(){
