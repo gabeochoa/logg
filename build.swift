@@ -74,7 +74,19 @@ struct Data {
     }
 }
 
+
 var data: Data = Data()
+
+
+struct Theme  {
+    let space_cadet = Color(hex: "2B2D42")
+    let cool_gray = Color(hex: "8D99AE")
+
+    let background = Color(hex: "8D99AE")
+    let placeholder = Color(hex: "8D99AE")
+}
+
+var theme = Theme()
 
 public func closeButtonAction(){
     exit(0)
@@ -119,13 +131,27 @@ struct BookDetailPage: View {
 
     var body: some View {
         VStack {
-            Text(book.name)
-                .font(.largeTitle)
-            Text(book.author)
-                .font(.title)
-            Text("\(book.year)")
+            HStack {
+                VStack {
+                    Text(book.name)
+                        .font(.largeTitle)
+                    HStack {
+                        Text(String("(\(book.year))"))
+                            .font(.body)
+                        Text(book.author)
+                            .font(.title)
+                    }
+                }
+                .padding()
+
+                RoundedRectangle(cornerRadius: 5)
+                    .fill(theme.placeholder)
+                    .frame(width: 75, height: 100)
+            }
+            Text(placeholder_desc)
                 .font(.body)
         }
+        .padding()
     }
 }
 
@@ -179,8 +205,11 @@ struct ContentView: View {
     var body: some View {
         VStack {
             HStack {
-                Button(action: closeButtonAction){
-                    Text("A")
+                Button(action: {
+                    activeBookPage = data.books[0].id
+                    }
+                ){
+                    Text("Example")
                 }
                 Button(action: {
                     searchSheetOpen = true
