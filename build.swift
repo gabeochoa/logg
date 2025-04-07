@@ -292,10 +292,10 @@ func getBooks() -> [Book] {
 }
 
 func bookFromID(id: UUID) -> Book {
-    var results = (getBooks().filter { book in book.id == id })
+    var results = (books.filter { book in book.id == id })
     if(results.isEmpty){
         print("Was not able to find ", id)
-        return getBooks()[0]
+        return books[0]
     }
     return results[0]
 }
