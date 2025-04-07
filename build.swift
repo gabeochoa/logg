@@ -100,7 +100,7 @@ struct SearchSheet : View {
                 .padding(10)
             }
             Button(action: closeButtonAction){
-                Text("C")
+                Text("Close")
             }
         }
     }
@@ -124,7 +124,7 @@ struct ContentView: View {
                     .frame(height:300)
                 }
                 Button(action: closeButtonAction){
-                    Text("C")
+                    Text("Close")
                 }
             }
         }
