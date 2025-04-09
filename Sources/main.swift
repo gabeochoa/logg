@@ -98,6 +98,31 @@ struct SearchResult: View {
     }
 }
 
+struct RatingChart: View {
+    var book: Book
+
+    var rating_heights: [Float] {
+        return [
+            0, 0.10, 0.40, 0.35, 0.15
+        ]
+    }
+
+    var body: some View {
+        HStack(alignment: .firstTextBaseline) {
+            ForEach(rating_heights.indices, id: \.self){
+                index in 
+                    Rectangle()
+                    .fill(theme.placeholder)
+                    .frame(width: 40, height: CGFloat( (50 * rating_heights[index]) + 5) )
+            }
+            Text("3.5")
+            .font(.largeTitle)
+            .foregroundColor(.yellow)
+
+        }
+    }
+}
+
 struct BookDetailPage: View {
     var book: Book
 
@@ -105,6 +130,8 @@ struct BookDetailPage: View {
         VStack {
             HStack {
                 VStack {
+                    Spacer() 
+
                     Text(book.name)
                         .font(.largeTitle)
                     HStack {
@@ -113,15 +140,19 @@ struct BookDetailPage: View {
                         Text(book.author)
                             .font(.title)
                     }
+
+                    Spacer() 
                 }
-                .padding()
 
                 RoundedRectangle(cornerRadius: 5)
                     .fill(theme.placeholder)
                     .frame(width: 75, height: 100)
             }
+
             Text(placeholder_desc)
                 .font(.body)
+
+            RatingChart(book: book)
         }
         .padding()
     }
