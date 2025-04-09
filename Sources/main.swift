@@ -19,17 +19,31 @@ struct User: Identifiable {
     let name: String 
 }
 
+enum RatingStar: Int{
+    case unset, one = 1, two, three, four, five
+}
+
 struct Review: Identifiable {
      let id:UUID = UUID()
      let book_id:UUID
      let user_id:UUID
      let content: String
+     let rating: RatingStar 
+
+// TODO make a lightweight version so we dont have to load 
+// this entire object to make the chart 
+    init(book_id: UUID, user_id: UUID, content: String, rating: RatingStar = .unset) {
+        self.book_id = book_id
+        self.user_id = user_id
+        self.content = content
+        self.rating = rating
+    }
 }
 
 struct Data {
     let books: [Book]
     let users: [User]
-    let reviews: [Review]
+    var reviews: [Review]
 
     init() {
         self.books = getBooks()  
@@ -37,12 +51,40 @@ struct Data {
         self.users = [
             User(name: "choicehoney"),
             User(name: "bagelseed"),
+            User(name: "hotpapi"),
         ]
         
         self.reviews = [
-            Review(book_id: books[0].id, user_id: users[0].id, content: "Review 1"),
-            Review(book_id: books[0].id, user_id: users[1].id, content: "Review 2 🤷"),
+            Review(book_id: books[0].id, user_id: users[0].id, content: "Review 1", rating: RatingStar.three),
+            Review(book_id: books[0].id, user_id: users[1].id, content: "Review 2 🤷", rating: RatingStar.two),
+            Review(book_id: books[0].id, user_id: users[2].id, content: "Review 3 🥵", rating: RatingStar.four),
         ]
+
+        generateFakeReviews()
+    }
+
+    mutating func generateFakeReviews() -> Void {
+        let reviewContents = [
+            "Loved this book! 📚",
+            "Not bad, but could be better 🤔",
+            "Amazing read! 😍",
+            "Pretty decent, but a bit slow at times ⏳",
+            "I didn't enjoy this one... 😕",
+            "Incredible! Will read again 🔁",
+            "A rollercoaster of emotions! 😳",
+            "A solid read from me ⭐⭐",
+            "I couldn't put this one down! 🔥",
+            "Too long, didn't finish... 🥱"
+        ]
+        
+        for book in self.books {
+            for user in self.users {
+                let randomRating = RatingStar(rawValue: Int.random(in: 1...5)) ?? .unset
+                let randomContent = reviewContents.randomElement() ?? "No review content"
+                let review = Review(book_id: book.id, user_id: user.id, content: randomContent, rating: randomRating)
+                self.reviews.append(review)
+            }
+        }
     }
 }
 
@@ -102,9 +144,32 @@ struct RatingChart: View {
     var book: Book
 
     var rating_heights: [Float] {
-        return [
-            0, 0.10, 0.40, 0.35, 0.15
-        ]
+        let all_reviews = data.reviews.filter { $0.book_id == book.id }
+        
+        // Use reduce to count occurrences of each rating
+        let starCounts = all_reviews.reduce(into: [0, 0, 0, 0, 0]) { 
+            counts, review in
+                switch review.rating {
+                case .one:
+                    counts[0] += 1
+                case .two:
+                    counts[1] += 1
+                case .three:
+                    counts[2] += 1
+                case .four:
+                    counts[3] += 1
+                case .five:
+                    counts[4] += 1
+                default:
+                    break
+                }
+        }
+        
+        // Convert to proportions, avoid division by zero
+        let totalReviews = Float(all_reviews.count)
+        return totalReviews == 0 
+            ? [0, 0, 0, 0, 0] 
+            : starCounts.map { Float($0) / totalReviews }
     }
 
     var body: some View {
@@ -125,6 +190,13 @@ struct RatingChart: View {
 
 struct BookDetailPage: View {
     var book: Book
+
+    var rating_count: Int {
+        return data.reviews.filter { 
+            review in review.book_id == book.id
+        }.count
+    }
+
 
     var body: some View {
         VStack {
@@ -149,9 +221,18 @@ struct BookDetailPage: View {
                     .frame(width: 75, height: 100)
             }
 
+            Spacer()
+
             Text(placeholder_desc)
                 .font(.body)
 
+            HStack {
+                Text("Ratings")
+                    .font(.headline)
+                Text("\(rating_count)")
+                    .font(.body)
+            }
+            
             RatingChart(book: book)
         }
         .padding()
@@ -369,3 +450,4 @@ func bookFromID(id: UUID) -> Book {
     }
     return results[0]
 }
+
