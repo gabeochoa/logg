@@ -1,3 +1,9 @@
 
 all:
-	swift build.swift
+	swift run
+
+clean:
+	swift package clean
+
+
+.PHONY: clean
