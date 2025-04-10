@@ -25,19 +25,32 @@ struct GradientMaskModifier: ViewModifier {
 
 struct ExpandableText: View {
     let text: String
-    let lineLimit: Int
+    var _lineLimit: Int
 
     @State private var expanded = false
 
     var body: some View {
-        ZStack {
+        VStack {
             Text(text)
-                .lineLimit(expanded ? nil : lineLimit)
+                .lineLimit(expanded ? nil : _lineLimit)
+                // TODO add animate gradient mask
+                .modifier(GradientMaskModifier(applyMask: !expanded))
                 .onTapGesture {
                     expanded.toggle()
                 }
-                .modifier(GradientMaskModifier(applyMask: !expanded))
-            // TODO add animate gradient mask
+                // Prevent extra space when expanded
+                .fixedSize(horizontal: false, vertical: true)
         }
+    }
+
+    init(_ text: String) {
+        self.text = text
+        self._lineLimit = -1
+    }
+
+    func lineLimit(_ limit: Int) -> some View {
+        var copy = self
+        copy._lineLimit = limit
+        return copy
     }
 }
