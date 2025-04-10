@@ -81,10 +81,7 @@ struct BookDetailPage: View {
                     .frame(width: 75, height: 100)
             }
 
-            Spacer()
-
-            Text(placeholder_desc)
-                .font(.body)
+            ExpandableText(text: placeholder_desc, lineLimit: 3)
 
             HStack {
                 Text("Ratings")
