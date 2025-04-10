@@ -100,7 +100,6 @@ struct BookDetailPage: View {
         }.count
     }
 
-
     var body: some View {
         VStack {
             HStack {
@@ -228,7 +227,17 @@ struct ContentView: View {
 }
 
 NSApplication.shared.run {
-    ContentView()
+    VStack{
+        ContentView()
+
+        // closing the application with the stoplight
+        // doesnt close swift-frontend 
+        // 
+        // so this button makes that easier 
+        Button(action: closeButtonAction){
+            Text("Close")
+        }
+    }
 }
 
 extension NSApplication {
