@@ -1,7 +1,3 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
-
-import Cocoa
 import SwiftUI
 
 public func closeButtonAction() {
@@ -56,6 +52,7 @@ struct ContentView: View {
     }
 }
 
+/*
 NSApplication.shared.run {
     VStack {
         ContentView()
@@ -158,3 +155,4 @@ class AppDelegate<V: View>: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
 
 }
+*/

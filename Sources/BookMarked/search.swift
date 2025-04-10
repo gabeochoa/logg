@@ -1,4 +1,3 @@
-import Cocoa
 import SwiftUI
 
 struct SearchSheet: View {

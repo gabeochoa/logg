@@ -1,9 +1,10 @@
 
+
 all:
-	swift run
+	swift bundler run
 
-clean:
-	swift package clean
+sim: 
+	swift bundler run --platform iOSSimulator --simulator "iPhone 16"
 
-
-.PHONY: clean
+output: 
+	swift bundler bundle -o . -c release -u

@@ -1,15 +1,15 @@
-// swift-tools-version: 6.0
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version: 5.5
 
 import PackageDescription
 
 let package = Package(
-    name: "book",
-    platforms: [
-        .macOS(.v12) 
-    ],
+    name: "BookMarked",
+    platforms: [.macOS(.v12), .iOS(.v15), .tvOS(.v14)],
+    dependencies: [],
     targets: [
-        .executableTarget( name: "book"),
+        .executableTarget(
+            name: "BookMarked",
+            dependencies: []
+        )
     ]
 )
-

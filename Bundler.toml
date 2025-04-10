@@ -1,0 +1,6 @@
+format_version = 2
+
+[apps.BookMarked]
+identifier = 'com.example.BookMarked'
+product = 'BookMarked'
+version = '0.1.0'
