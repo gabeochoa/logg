@@ -1,4 +1,3 @@
-import Cocoa
 import SwiftUI
 
 let placeholder_desc =

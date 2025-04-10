@@ -6,10 +6,10 @@ import PackageDescription
 let package = Package(
     name: "book",
     platforms: [
-        .macOS(.v12) 
+        .macOS(.v12),
+        .iOS(.v15),
     ],
     targets: [
-        .executableTarget( name: "book"),
+        .executableTarget(name: "book")
     ]
 )
-
