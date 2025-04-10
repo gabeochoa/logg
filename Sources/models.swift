@@ -111,6 +111,11 @@ let theme = Theme()
 func getBooks() -> [Book] {
     return [
         Book(author: "John Steinbeck", name: "Grapes of Wrath", year: 1939),
+        Book(
+            author: "T. J. Llewelyn (Thomas Jeffery Llewelyn) Prichard",
+            name:
+                "The new Aberstwyth guide to the waters, bathing houses, public walks, and amusements; including historical notices and general information connected with the town, castle ruins, rivers, Havod, the Dev",
+            year: 1545),
         Book(author: "George Orwell", name: "1984", year: 1949),
         Book(author: "Harper Lee", name: "To Kill a Mockingbird", year: 1960),
         Book(author: "F. Scott Fitzgerald", name: "The Great Gatsby", year: 1925),
