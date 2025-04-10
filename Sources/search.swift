@@ -1,20 +1,19 @@
-
 import Cocoa
 import SwiftUI
 
-struct SearchSheet : View {
+struct SearchSheet: View {
     @Binding var bookPage: UUID?
     @State private var searchText: String = ""
 
-    @Environment(\.dismiss) var dismiss  
+    @Environment(\.dismiss) var dismiss
 
     var filteredBooks: [Book] {
         if searchText.isEmpty {
             return data.books
         } else {
             return data.books.filter { book in
-                book.name.lowercased().contains(searchText.lowercased()) ||
-                book.author.lowercased().contains(searchText.lowercased())
+                book.name.lowercased().contains(searchText.lowercased())
+                    || book.author.lowercased().contains(searchText.lowercased())
             }
         }
     }
@@ -22,10 +21,10 @@ struct SearchSheet : View {
     var body: some View {
         VStack {
             List {
-                ForEach(filteredBooks) { 
-                    book in 
-                    Button(action: { 
-                        bookPage = book.id 
+                ForEach(filteredBooks) {
+                    book in
+                    Button(action: {
+                        bookPage = book.id
                         dismiss()
                     }) {
                         SearchResult(book: book)
@@ -34,13 +33,12 @@ struct SearchSheet : View {
                 .searchable(text: $searchText)
                 .padding(10)
             }
-            Button(action: closeButtonAction){
+            Button(action: closeButtonAction) {
                 Text("Close")
             }
         }
     }
 }
-
 
 struct SearchResult: View {
     var book: Book

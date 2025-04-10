@@ -1,11 +1,10 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
-
 import Cocoa
 import SwiftUI
 
-public func closeButtonAction(){
+public func closeButtonAction() {
     exit(0)
 }
 
@@ -22,31 +21,33 @@ struct ContentView: View {
             HStack {
                 Button(action: {
                     activeBookPage = data.books[0].id
-                    }
-                ){
+                }
+                ) {
                     Text("Example")
                 }
                 Button(action: {
                     searchSheetOpen = true
-                }){
+                }) {
                     Text("+")
                 }
-                .sheet(isPresented: $searchSheetOpen){
+                .sheet(isPresented: $searchSheetOpen) {
                     SearchSheet(bookPage: $activeBookPage)
-                    .frame(height:300)
+                        .frame(height: 300)
                 }
-                .sheet(isPresented: Binding<Bool>(
-                    get: { activeBookPage != nil },
-                    set: { newValue in
-                        if !newValue { activeBookPage = nil } 
-                    })) {
+                .sheet(
+                    isPresented: Binding<Bool>(
+                        get: { activeBookPage != nil },
+                        set: { newValue in
+                            if !newValue { activeBookPage = nil }
+                        })
+                ) {
                     if let bookID = activeBookPage {
                         BookDetailPage(
                             book: bookFromID(id: bookID)
                         )
                     }
                 }
-                Button(action: closeButtonAction){
+                Button(action: closeButtonAction) {
                     Text("Close")
                 }
             }
@@ -56,14 +57,14 @@ struct ContentView: View {
 }
 
 NSApplication.shared.run {
-    VStack{
+    VStack {
         ContentView()
 
         // closing the application with the stoplight
-        // doesnt close swift-frontend 
-        // 
-        // so this button makes that easier 
-        Button(action: closeButtonAction){
+        // doesnt close swift-frontend
+        //
+        // so this button makes that easier
+        Button(action: closeButtonAction) {
             Text("Close")
         }
     }
@@ -82,29 +83,50 @@ extension NSApplication {
         let appMenu = NSMenuItem()
         appMenu.submenu = NSMenu()
         let appName = ProcessInfo.processInfo.processName
-        appMenu.submenu?.addItem(NSMenuItem(title: "About \(appName)", action: #selector(NSApplication.orderFrontStandardAboutPanel(_:)), keyEquivalent: ""))
+        appMenu.submenu?.addItem(
+            NSMenuItem(
+                title: "About \(appName)",
+                action: #selector(NSApplication.orderFrontStandardAboutPanel(_:)), keyEquivalent: ""
+            ))
         appMenu.submenu?.addItem(NSMenuItem.separator())
         let services = NSMenuItem(title: "Services", action: nil, keyEquivalent: "")
         self.servicesMenu = NSMenu()
         services.submenu = self.servicesMenu
         appMenu.submenu?.addItem(services)
         appMenu.submenu?.addItem(NSMenuItem.separator())
-        appMenu.submenu?.addItem(NSMenuItem(title: "Hide \(appName)", action: #selector(NSApplication.hide(_:)), keyEquivalent: "h"))
-        let hideOthers = NSMenuItem(title: "Hide Others", action: #selector(NSApplication.hideOtherApplications(_:)), keyEquivalent: "h")
+        appMenu.submenu?.addItem(
+            NSMenuItem(
+                title: "Hide \(appName)", action: #selector(NSApplication.hide(_:)),
+                keyEquivalent: "h"))
+        let hideOthers = NSMenuItem(
+            title: "Hide Others", action: #selector(NSApplication.hideOtherApplications(_:)),
+            keyEquivalent: "h")
         hideOthers.keyEquivalentModifierMask = [.command, .option]
         appMenu.submenu?.addItem(hideOthers)
-        appMenu.submenu?.addItem(NSMenuItem(title: "Show All", action: #selector(NSApplication.unhideAllApplications(_:)), keyEquivalent: ""))
+        appMenu.submenu?.addItem(
+            NSMenuItem(
+                title: "Show All", action: #selector(NSApplication.unhideAllApplications(_:)),
+                keyEquivalent: ""))
         appMenu.submenu?.addItem(NSMenuItem.separator())
-        appMenu.submenu?.addItem(NSMenuItem(title: "Quit \(appName)", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
+        appMenu.submenu?.addItem(
+            NSMenuItem(
+                title: "Quit \(appName)", action: #selector(NSApplication.terminate(_:)),
+                keyEquivalent: "q"))
 
-        
         let windowMenu = NSMenuItem()
         windowMenu.submenu = NSMenu(title: "Window")
-        windowMenu.submenu?.addItem(NSMenuItem(title: "Minmize", action: #selector(NSWindow.miniaturize(_:)), keyEquivalent: "m"))
-        windowMenu.submenu?.addItem(NSMenuItem(title: "Zoom", action: #selector(NSWindow.performZoom(_:)), keyEquivalent: ""))
+        windowMenu.submenu?.addItem(
+            NSMenuItem(
+                title: "Minmize", action: #selector(NSWindow.miniaturize(_:)), keyEquivalent: "m"))
+        windowMenu.submenu?.addItem(
+            NSMenuItem(
+                title: "Zoom", action: #selector(NSWindow.performZoom(_:)), keyEquivalent: ""))
         windowMenu.submenu?.addItem(NSMenuItem.separator())
-        windowMenu.submenu?.addItem(NSMenuItem(title: "Show All", action: #selector(NSApplication.arrangeInFront(_:)), keyEquivalent: "m"))
-        
+        windowMenu.submenu?.addItem(
+            NSMenuItem(
+                title: "Show All", action: #selector(NSApplication.arrangeInFront(_:)),
+                keyEquivalent: "m"))
+
         let mainMenu = NSMenu(title: "Main Menu")
         mainMenu.addItem(appMenu)
         mainMenu.addItem(windowMenu)
@@ -115,12 +137,12 @@ extension NSApplication {
 class AppDelegate<V: View>: NSObject, NSApplicationDelegate, NSWindowDelegate {
     init(_ contentView: V) {
         self.contentView = contentView
-        
+
     }
     var window: NSWindow!
     var hostingView: NSView?
     var contentView: V
-    
+
     func applicationDidFinishLaunching(_ notification: Notification) {
         window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 600, height: 800),
