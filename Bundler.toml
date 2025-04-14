@@ -1,6 +1,6 @@
 format_version = 2
 
 [apps.book]
-identifier = 'com.example.book'
+identifier = 'com.choicehoney.book'
 product = 'book'
 version = '0.1.0'

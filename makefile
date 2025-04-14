@@ -11,5 +11,7 @@ ios:
 		/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk \
 		-Xswiftc -target -Xswiftc arm64-apple-ios14.0
 
+xcode:
+	open Package.swift -a /Applications/Xcode.app
 
 .PHONY: clean
