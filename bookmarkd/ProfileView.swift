@@ -16,11 +16,30 @@ struct ProfileHeaderView: View {
                 .resizable()
                 .frame(width: 75, height: 75)
                 .clipShape(Circle())
-            VStack(alignment: .leading) {
+                // TODO make it round
+                .border(.gray, width: 1)
+
+            VStack(alignment: .leading, spacing: 0) {
                 Text(user.name)
-                    .font(.headline)
+                    .font(.largeTitle)
                 Text("232 books")
+                    .font(.body)
                     .foregroundColor(.secondary)
+
+                HStack(alignment: .center, spacing: 2){
+                    Image(systemName: "square.fill") 
+                        .resizable()
+                        .frame(width: 15, height: 15)
+                        .foregroundColor(.blue)
+                    Image(systemName: "square.fill") 
+                        .resizable()
+                        .frame(width: 15, height: 15)
+                        .foregroundColor(.red)
+                    Image(systemName: "square.fill") 
+                        .resizable()
+                        .frame(width: 15, height: 15)
+                        .foregroundColor(.gray)
+                }
             }
         }
     }
