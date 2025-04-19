@@ -17,9 +17,18 @@ struct Book: Identifiable, Hashable {
     var year: Int = 2024
 }
 
-struct User: Identifiable {
+struct User: Identifiable, Hashable {
     let id = UUID()
     let name: String
+    let pfp: String = "monkey"
+    let bio: String = """
+star rating
+    1) couldnt finish
+    2) finished but dont recommend
+    3) was okay
+    4) pretty good
+    5) :)
+"""
 }
 
 enum RatingStar: Int {
@@ -28,7 +37,7 @@ enum RatingStar: Int {
     case two, three, four, five
 }
 
-struct Review: Identifiable {
+struct Review: Identifiable, Hashable {
     let id: UUID = UUID()
     let book_id: UUID
     let user_id: UUID
@@ -170,6 +179,34 @@ func bookFromID(id: UUID) -> Book {
     if results.isEmpty {
         print("Was not able to find ", id)
         return data.books[0]
+    }
+    return results[0]
+}
+
+@MainActor
+func reviewsForUserID(id: UUID) -> [Review] {
+    let results = (
+        data.reviews.filter { 
+            review in review.user_id == id 
+        }
+    )
+    if results.isEmpty {
+        print("Was not able to find reviews for ", id)
+        return []
+    }
+    return results
+}
+
+@MainActor
+func userForUserName(name: String) -> User? {
+    let results = (
+        data.users.filter { 
+            user in user.name == name
+        }
+    )
+    if results.isEmpty {
+        print("Was not able to find reviews for ", name)
+        return nil
     }
     return results[0]
 }
