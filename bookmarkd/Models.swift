@@ -55,6 +55,11 @@ enum RatingStar: Int {
     case two, three, four, five
 }
 
+struct Follow {
+    let user_id: UUID 
+    let follower_id: UUID
+}
+
 struct Review: Identifiable, Hashable {
     let id: UUID = UUID()
     let book_id: UUID
@@ -76,14 +81,17 @@ struct Data {
     var books: [Book]
     var users: [User]
     var reviews: [Review]
+    var follow_graph: [Follow]
 
     init() {
         self.books = getBooks()
 
         self.users = [
-            User(name: "choicehoney"),
-            User(name: "bagelseed"),
+            User(name: "choicehoney", pfp: "monkey"),
+            User(name: "bagelseed", pfp: "snoopy"),
             User(name: "hotpapi"),
+            User(name: "dorf"),
+            User(name: "jclee"),
         ]
 
         self.users[0].social_accounts = [
@@ -112,6 +120,20 @@ struct Data {
         ]
 
         generateFakeReviews()
+
+        add_follower("choicehoney", "bagelseed")
+        add_follower("choicehoney", "hotpapi")
+        add_follower("choicehoney", "dorf")
+        add_follower("choicehoney", "jclee")
+
+        add_follower("bagelseed", "choicehoney")
+        add_follower("bagelseed", "hotpapi")
+
+        add_follower("dorf", "jclee")
+        add_follower("dorf", "choicehoney")
+
+        add_follower("jclee", "dorf")
+        add_follower("jclee", "choicehoney")
     }
 
     mutating func generateFakeReviews() {
@@ -240,4 +262,25 @@ func userForUserName(name: String) -> User? {
         return nil
     }
     return results[0]
+}
+
+@MainActor
+func userIDForUserName(name: String) -> UUID? {
+    let results = (
+        data.users.filter { 
+            user in user.name == name
+        }
+    )
+    if results.isEmpty {
+        print("Was not able to find reviews for ", name)
+        return nil
+    }
+    return results[0].id
+}
+
+func add_follower(_ userName: String, _ follower: String){
+    data.follow_graph.append(
+        Follow(user_id: userIDForUserName(userName), 
+              follower_id: userIDForUserName(follower))
+    )
 }
