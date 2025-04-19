@@ -31,7 +31,7 @@ struct ContentView: View {
             .tag(0)
 
             VStack {
-                SearchSheet(bookPage: $activeBookPage)
+                ProfileView(user: userForUserName(name: "choicehoney")!)
             }
             .tabItem {
                 Image(systemName: "person.circle")

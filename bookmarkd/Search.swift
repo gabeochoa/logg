@@ -34,6 +34,7 @@ struct SearchSheet: View {
                     }
                 }
             }
+            .listStyle(.plain)
             .navigationDestination(for: Book.self) { 
                 book in
                 BookDetailPage(book: book)
