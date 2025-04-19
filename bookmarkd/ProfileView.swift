@@ -73,6 +73,53 @@ struct ProfileSocialRow: View {
 
 }
 
+struct ProfileNumbersRow : View {
+
+    var user: User 
+
+    var review_count: Int {
+        return data.reviews.filter {
+            review in review.user_id == user.id
+        }.count
+    }
+
+    var follower_count: Int {
+        return getFollowersForID(user.id).count
+    }
+
+    var following_count: Int {
+        return getFollowingForID(user.id).count
+    }
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 20) {
+            VStack{
+                Text("\(review_count)")
+                    .font(.body)
+                Text("books")
+                    .font(.body)
+                    .foregroundColor(.secondary)
+            }
+            VStack {
+                Text("\(follower_count)")
+                    .font(.body)
+                Text("followers")
+                    .font(.body)
+                    .foregroundColor(.secondary)
+            }
+            VStack {
+                Text("\(following_count)")
+                    .font(.body)
+                Text("following")
+                    .font(.body)
+                    .foregroundColor(.secondary)
+            }
+        }
+        .padding(.vertical, 5)
+        .padding(.horizontal, 5)
+    }
+}
+
 struct ProfileHeaderView: View {
 
     var user: User 
@@ -86,14 +133,14 @@ struct ProfileHeaderView: View {
                 // TODO make it round
                 .border(.gray, width: 1)
 
-            VStack(alignment: .leading, spacing: 0) {
+            VStack(alignment: .center, spacing: 0) {
                 Text(user.name)
                     .font(.largeTitle)
-                Text("232 books")
-                    .font(.body)
-                    .foregroundColor(.secondary)
+
+                ProfileNumbersRow(user: user)
                 ProfileSocialRow(user: user)
             }
+            .frame(maxWidth: .infinity)
         }
         .padding(.horizontal, 10)
     }
