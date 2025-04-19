@@ -118,28 +118,45 @@ struct Data {
                 book_id: books[0].id, user_id: users[2].id, content: "Review 3 🥵",
                 rating: RatingStar.four),
         ]
+        
+        self.follow_graph = [
+            make_follower("choicehoney", "bagelseed"),
+            make_follower("choicehoney", "hotpapi"),
+            make_follower("choicehoney", "dorf"),
+            make_follower("choicehoney", "jclee"),
+
+            make_follower("bagelseed", "choicehoney"),
+            make_follower("bagelseed", "hotpapi"),
+
+            make_follower("dorf", "jclee"),
+            make_follower("dorf", "choicehoney"),
+
+            make_follower("jclee", "dorf"),
+            make_follower("jclee", "choicehoney"),
+        ]
 
         generateFakeReviews()
-        initializeFollowers()
     }
 
-    mutating func initializeFollowers() {
-        Task { @MainActor in
-            add_follower("choicehoney", "bagelseed")
-            add_follower("choicehoney", "hotpapi")
-            add_follower("choicehoney", "dorf")
-            add_follower("choicehoney", "jclee")
 
-            add_follower("bagelseed", "choicehoney")
-            add_follower("bagelseed", "hotpapi")
-
-            add_follower("dorf", "jclee")
-            add_follower("dorf", "choicehoney")
-
-            add_follower("jclee", "dorf")
-            add_follower("jclee", "choicehoney")
+    func userIDForUserName(_ name: String) -> UUID? {
+        let results = (
+            self.users.filter { 
+                user in user.name == name
+            }
+        )
+        if results.isEmpty {
+            print("Was not able to find reviews for ", name)
+            return nil
         }
+        return results[0].id
     }
+
+    func make_follower(_ userName: String, _ follower: String) -> Follow {
+            return Follow(user_id: self.userIDForUserName(userName)!, 
+                          follower_id: self.userIDForUserName(follower)!)
+    }
+
 
     mutating func generateFakeReviews() {
         let reviewContents = [
@@ -235,7 +252,7 @@ func getBooks() -> [Book] {
 func bookFromID(_ id: UUID) -> Book {
     let results = (data.books.filter { book in book.id == id })
     if results.isEmpty {
-        print("Was not able to find ", id)
+        print("Was not able to find book: ", id)
         return data.books[0]
     }
     return results[0]
@@ -283,11 +300,23 @@ func userIDForUserName(_ name: String) -> UUID? {
     return results[0].id
 }
 
+
 @MainActor
-func add_follower(_ userName: String, _ follower: String){
-    // TODO handle username not found 
-    data.follow_graph.append(
-        Follow(user_id: userIDForUserName(userName)!, 
-              follower_id: userIDForUserName(follower)!)
+func getFollowersForID(_ user_id: UUID) -> [UUID] {
+    return (
+        data.follow_graph.filter {
+            follow in follow.user_id == user_id
+        }.map { $0.follower_id }
     )
 }
+
+@MainActor
+func getFollowingForID(_ user_id: UUID) -> [UUID] {
+    return (
+        data.follow_graph.filter {
+            follow in follow.follower_id == user_id
+        }.map { $0.user_id }
+    )
+}
+
+
