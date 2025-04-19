@@ -68,8 +68,6 @@ struct BookDetailPage: View {
         VStack {
             HStack {
                 VStack {
-                    Spacer()
-
                     Text(book.name)
                         .font(.largeTitle)
                     HStack {
@@ -78,8 +76,6 @@ struct BookDetailPage: View {
                         Text(book.author)
                             .font(.title)
                     }
-
-                    Spacer()
                 }
 
                 RoundedRectangle(cornerRadius: 5)

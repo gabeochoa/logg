@@ -29,45 +29,16 @@ struct ContentView: View {
                     Text("Search")
             }
             .tag(0)
-        }
-        /*
-        VStack {
-            HStack {
-                Button(action: {
-                    activeBookPage = data.books[0].id
-                }
-                ) {
-                    Text("Example Book Detail")
-                }
-                Button(action: {
-                    searchSheetOpen = true
-                }) {
-                    Text("+")
-                }
-                .sheet(isPresented: $searchSheetOpen) {
-                    SearchSheet(bookPage: $activeBookPage)
-                        .frame(height: 300)
-                }
-                .sheet(
-                    isPresented: Binding<Bool>(
-                        get: { activeBookPage != nil },
-                        set: { newValue in
-                            if !newValue { activeBookPage = nil }
-                        })
-                ) {
-                    if let bookID = activeBookPage {
-                        BookDetailPage(
-                            book: bookFromID(id: bookID)
-                        )
-                    }
-                }
-                Button(action: closeButtonAction) {
-                    Text("Close")
-                }
+
+            VStack {
+                SearchSheet(bookPage: $activeBookPage)
             }
+            .tabItem {
+                Image(systemName: "person.circle")
+                    Text("Profile")
+            }
+            .tag(1)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        */
     }
 }
 
