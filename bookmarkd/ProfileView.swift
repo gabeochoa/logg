@@ -139,7 +139,7 @@ struct ProfileView: View {
     var user: User
 
     var reviews: [Review] {
-        return reviewsForUserID(id: user.id)
+        return reviewsForUserID(user.id)
     }
 
     var body: some View {
@@ -153,7 +153,7 @@ struct ProfileView: View {
                     NavigationLink(value: review) {
                         ProfileReviewCard(
                             user: user,
-                            book: bookFromID(id: review.id),
+                            book: bookFromID( review.id),
                             review: review
                         )
                     }
@@ -167,5 +167,5 @@ struct ProfileView: View {
 
 
 #Preview {
-    ProfileView(user: userForUserName(name: "choicehoney")!)
+    ProfileView(user: userForUserName( "choicehoney")!)
 }

@@ -227,7 +227,7 @@ func getBooks() -> [Book] {
 }
 
 @MainActor
-func bookFromID(id: UUID) -> Book {
+func bookFromID(_ id: UUID) -> Book {
     let results = (data.books.filter { book in book.id == id })
     if results.isEmpty {
         print("Was not able to find ", id)
@@ -237,7 +237,7 @@ func bookFromID(id: UUID) -> Book {
 }
 
 @MainActor
-func reviewsForUserID(id: UUID) -> [Review] {
+func reviewsForUserID(_ id: UUID) -> [Review] {
     let results = (
         data.reviews.filter { 
             review in review.user_id == id 
@@ -251,7 +251,7 @@ func reviewsForUserID(id: UUID) -> [Review] {
 }
 
 @MainActor
-func userForUserName(name: String) -> User? {
+func userForUserName(_ name: String) -> User? {
     let results = (
         data.users.filter { 
             user in user.name == name
@@ -265,7 +265,7 @@ func userForUserName(name: String) -> User? {
 }
 
 @MainActor
-func userIDForUserName(name: String) -> UUID? {
+func userIDForUserName(_ name: String) -> UUID? {
     let results = (
         data.users.filter { 
             user in user.name == name
@@ -278,9 +278,11 @@ func userIDForUserName(name: String) -> UUID? {
     return results[0].id
 }
 
+@MainActor
 func add_follower(_ userName: String, _ follower: String){
+    // TODO handle username not found 
     data.follow_graph.append(
-        Follow(user_id: userIDForUserName(userName), 
-              follower_id: userIDForUserName(follower))
+        Follow(user_id: userIDForUserName(userName)!, 
+              follower_id: userIDForUserName(follower)!)
     )
 }
