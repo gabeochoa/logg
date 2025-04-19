@@ -81,7 +81,7 @@ struct Data {
     var books: [Book]
     var users: [User]
     var reviews: [Review]
-    var follow_graph: [Follow]
+    var follow_graph: [Follow] = []
 
     init() {
         self.books = getBooks()
@@ -120,20 +120,25 @@ struct Data {
         ]
 
         generateFakeReviews()
+        initializeFollowers()
+    }
 
-        add_follower("choicehoney", "bagelseed")
-        add_follower("choicehoney", "hotpapi")
-        add_follower("choicehoney", "dorf")
-        add_follower("choicehoney", "jclee")
+    mutating func initializeFollowers() {
+        Task { @MainActor in
+            add_follower("choicehoney", "bagelseed")
+            add_follower("choicehoney", "hotpapi")
+            add_follower("choicehoney", "dorf")
+            add_follower("choicehoney", "jclee")
 
-        add_follower("bagelseed", "choicehoney")
-        add_follower("bagelseed", "hotpapi")
+            add_follower("bagelseed", "choicehoney")
+            add_follower("bagelseed", "hotpapi")
 
-        add_follower("dorf", "jclee")
-        add_follower("dorf", "choicehoney")
+            add_follower("dorf", "jclee")
+            add_follower("dorf", "choicehoney")
 
-        add_follower("jclee", "dorf")
-        add_follower("jclee", "choicehoney")
+            add_follower("jclee", "dorf")
+            add_follower("jclee", "choicehoney")
+        }
     }
 
     mutating func generateFakeReviews() {
