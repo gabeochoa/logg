@@ -89,9 +89,9 @@ struct Data {
         self.users = [
             User(name: "choicehoney", pfp: "monkey"),
             User(name: "bagelseed", pfp: "snoopy"),
-            User(name: "hotpapi"),
-            User(name: "dorf"),
-            User(name: "jclee"),
+            User(name: "hotpapi", pfp: "latte"),
+            User(name: "dorf", pfp: "squid"),
+            User(name: "jclee", pfp: "oo"),
         ]
 
         self.users[0].social_accounts = [
