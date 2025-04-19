@@ -7,7 +7,21 @@
 
 import SwiftUI
 
+struct ProfileSocialSheet: View {
+    var user: User 
+
+    var body: some View {
+        List {
+            Text("Instagram")
+            Text("Twitter")
+            Text("Letterboxd")
+        }
+    }
+}
+
 struct ProfileHeaderView: View {
+    @State private var socialSheetOpen: Bool = false
+
     var user: User 
 
     var body: some View {
@@ -26,22 +40,33 @@ struct ProfileHeaderView: View {
                     .font(.body)
                     .foregroundColor(.secondary)
 
-                HStack(alignment: .center, spacing: 2){
-                    Image(systemName: "square.fill") 
-                        .resizable()
-                        .frame(width: 15, height: 15)
-                        .foregroundColor(.blue)
-                    Image(systemName: "square.fill") 
-                        .resizable()
-                        .frame(width: 15, height: 15)
-                        .foregroundColor(.red)
-                    Image(systemName: "square.fill") 
-                        .resizable()
-                        .frame(width: 15, height: 15)
-                        .foregroundColor(.gray)
+                Button(action: {
+                    socialSheetOpen.toggle()
+                }) {
+                    HStack(alignment: .center, spacing: 2){
+                        Image(systemName: "square.fill") 
+                            .resizable()
+                            .frame(width: 15, height: 15)
+                            .foregroundColor(.blue)
+                        Image(systemName: "square.fill") 
+                            .resizable()
+                            .frame(width: 15, height: 15)
+                            .foregroundColor(.red)
+                        Image(systemName: "square.fill") 
+                            .resizable()
+                            .frame(width: 15, height: 15)
+                            .foregroundColor(.gray)
+                    }
+                    .padding(.vertical, 10)
+                    .sheet(isPresented: $socialSheetOpen){
+                        ProfileSocialSheet(user: user)
+                            .frame(height: 300)
+                            .presentationDetents([.medium, .large])
+                    }
                 }
             }
         }
+        .padding(.horizontal, 10)
     }
 }
 
