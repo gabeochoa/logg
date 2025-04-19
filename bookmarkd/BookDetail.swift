@@ -1,3 +1,10 @@
+//
+//  BookDetail.swift
+//  bookmarkd
+//
+//  Created by gabeochoa on 4/18/25.
+//
+
 import SwiftUI
 
 struct RatingChart: View {
@@ -94,4 +101,9 @@ struct BookDetailPage: View {
         }
         .padding()
     }
+}
+
+
+#Preview {
+    BookDetailPage(book: getBooks()[0])
 }

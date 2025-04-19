@@ -1,3 +1,10 @@
+//
+//  Search.swift
+//  bookmarkd
+//
+//  Created by gabeochoa on 4/18/25.
+//
+
 import SwiftUI
 
 struct SearchSheet: View {
@@ -18,23 +25,20 @@ struct SearchSheet: View {
     }
 
     var body: some View {
-        VStack {
+        NavigationStack{
             List {
-                ForEach(filteredBooks) {
+                ForEach(filteredBooks, id: \.id) { 
                     book in
-                    Button(action: {
-                        bookPage = book.id
-                        dismiss()
-                    }) {
+                    NavigationLink(value: book) {
                         SearchResult(book: book)
                     }
                 }
-                .searchable(text: $searchText)
-                .padding(10)
             }
-            Button(action: closeButtonAction) {
-                Text("Close")
+            .navigationDestination(for: Book.self) { 
+                book in
+                BookDetailPage(book: book)
             }
+            .searchable(text: $searchText, placement: .automatic)
         }
     }
 }
@@ -43,32 +47,28 @@ struct SearchResult: View {
     var book: Book
 
     var body: some View {
-        HStack {
+        VStack(alignment: .leading) {
             HStack {
                 Text(book.name)
                     .font(.headline)
                     .foregroundColor(.primary)
                     .lineLimit(1)
                     .truncationMode(.tail)
-
-                Text(String("(\(book.year))"))
+                    Text(String("(\(book.year))"))
                     .font(.caption)
                     .foregroundColor(.gray)
-
-                Text(book.author)
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                    .lineLimit(1)
-                    .truncationMode(.tail)
             }
-            .padding(.leading, 10)
-            .padding(.vertical, 8)
-
-            Spacer()
+            Text(book.author)
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+                .lineLimit(1)
+                .truncationMode(.tail)
         }
-        .background(Color.white)
-        .cornerRadius(8)
-        .shadow(radius: 3)
-        .padding([.leading, .trailing], 10)
+        .padding(.vertical, 10)
     }
+}
+
+
+#Preview {
+    SearchSheet(bookPage: .constant(getBooks()[0].id))
 }

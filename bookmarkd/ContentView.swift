@@ -1,3 +1,9 @@
+//
+//  ContentView.swift
+//  bookmarkd
+//
+//  Created by gabeochoa on 4/18/25.
+//
 
 import SwiftUI
 
@@ -14,13 +20,24 @@ struct ContentView: View {
     }
 
     var body: some View {
+        TabView {
+            VStack {
+                SearchSheet(bookPage: $activeBookPage)
+            }
+            .tabItem {
+                Image(systemName: "magnifyingglass")
+                    Text("Search")
+            }
+            .tag(0)
+        }
+        /*
         VStack {
             HStack {
                 Button(action: {
                     activeBookPage = data.books[0].id
                 }
                 ) {
-                    Text("Example")
+                    Text("Example Book Detail")
                 }
                 Button(action: {
                     searchSheetOpen = true
@@ -50,6 +67,10 @@ struct ContentView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        */
     }
 }
 
+#Preview {
+    ContentView()
+}

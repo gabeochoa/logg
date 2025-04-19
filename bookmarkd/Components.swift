@@ -1,3 +1,10 @@
+//
+//  Components.swift
+//  bookmarkd
+//
+//  Created by gabeochoa on 4/18/25.
+//
+
 import SwiftUI
 
 struct GradientMaskModifier: ViewModifier {

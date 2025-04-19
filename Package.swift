@@ -4,12 +4,15 @@
 import PackageDescription
 
 let package = Package(
-    name: "book",
+    name: "bookmarkd",
     platforms: [
-        .macOS(.v12),
+        .macOS(.v15),
         .iOS(.v15),
     ],
+    products: [
+        .executable(name: "bookmarkd", targets: ["bookmarkd"]),
+    ],
     targets: [
-        .executableTarget(name: "book")
+        .executableTarget(name: "bookmarkd", path: "bookmarkd"),
     ]
 )
