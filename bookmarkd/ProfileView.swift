@@ -50,24 +50,22 @@ struct ProfileReviewCard: View {
     var review: Review 
 
     var body: some View {
-        VStack {
-            HStack{
-                Image("book") 
-                    .resizable()
-                    .frame(width: 50, height: 75)
-                    .clipShape(
-                        RoundedRectangle(cornerRadius: 4)
-                    )
+        HStack{
+            Image("book") 
+                .resizable()
+                .frame(width: 50, height: 75)
+                .clipShape(
+                    RoundedRectangle(cornerRadius: 4)
+                )
 
-                VStack (alignment: .leading) { 
-                    Text(book.name)
-                        .font(.headline)
-                        .lineLimit(1)
-                    ProfileReviewCardStars(review: review)
-                    Text("\(review.content)...")
-                        .font(.body)
-                        .lineLimit(1)
-                }
+            VStack (alignment: .leading) { 
+                Text(book.name)
+                    .font(.headline)
+                    .lineLimit(1)
+                ProfileReviewCardStars(review: review)
+                Text("\(review.content)...")
+                    .font(.body)
+                    .lineLimit(1)
             }
         }
     }
@@ -81,7 +79,7 @@ struct ProfileView: View {
     }
 
     var body: some View {
-        VStack {
+        VStack (alignment: .leading) { 
             ProfileHeaderView(user: user)
             ExpandableText(user.bio)
                 .lineLimit(3)
@@ -97,7 +95,9 @@ struct ProfileView: View {
                     }
                 }
             }
+            .listStyle(.plain)
         }
+        .padding(.horizontal, 10)
     }
 }
 
