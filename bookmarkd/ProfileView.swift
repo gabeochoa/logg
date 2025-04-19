@@ -103,5 +103,5 @@ struct ProfileView: View {
 
 
 #Preview {
-    ProfileView(user: userForUserName(name: "choicehoney"))
+    ProfileView(user: userForUserName(name: "choicehoney")!)
 }
