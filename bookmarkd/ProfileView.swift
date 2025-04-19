@@ -40,8 +40,40 @@ struct ProfileSocialSheet: View {
     }
 }
 
-struct ProfileHeaderView: View {
+struct ProfileSocialRow: View {
     @State private var socialSheetOpen: Bool = false
+
+    var user: User 
+
+    var body: some View {
+        Button(action: {
+            socialSheetOpen.toggle()
+        }) {
+            HStack(alignment: .center, spacing: 2){
+                Image(systemName: "square.fill") 
+                    .resizable()
+                    .frame(width: 15, height: 15)
+                    .foregroundColor(.blue)
+                Image(systemName: "square.fill") 
+                    .resizable()
+                    .frame(width: 15, height: 15)
+                    .foregroundColor(.red)
+                Image(systemName: "square.fill") 
+                    .resizable()
+                    .frame(width: 15, height: 15)
+                    .foregroundColor(.gray)
+            }
+            .padding(.vertical, 10)
+            .sheet(isPresented: $socialSheetOpen){
+                ProfileSocialSheet(user: user)
+                    .presentationDetents([.medium, .large])
+            }
+        }
+    }
+
+}
+
+struct ProfileHeaderView: View {
 
     var user: User 
 
@@ -60,30 +92,7 @@ struct ProfileHeaderView: View {
                 Text("232 books")
                     .font(.body)
                     .foregroundColor(.secondary)
-
-                Button(action: {
-                    socialSheetOpen.toggle()
-                }) {
-                    HStack(alignment: .center, spacing: 2){
-                        Image(systemName: "square.fill") 
-                            .resizable()
-                            .frame(width: 15, height: 15)
-                            .foregroundColor(.blue)
-                        Image(systemName: "square.fill") 
-                            .resizable()
-                            .frame(width: 15, height: 15)
-                            .foregroundColor(.red)
-                        Image(systemName: "square.fill") 
-                            .resizable()
-                            .frame(width: 15, height: 15)
-                            .foregroundColor(.gray)
-                    }
-                    .padding(.vertical, 10)
-                    .sheet(isPresented: $socialSheetOpen){
-                        ProfileSocialSheet(user: user)
-                            .presentationDetents([.medium, .large])
-                    }
-                }
+                ProfileSocialRow(user: user)
             }
         }
         .padding(.horizontal, 10)
