@@ -7,14 +7,35 @@
 
 import SwiftUI
 
+struct ProfileSocialLink: View {
+    @Environment(\.openURL) var openURL
+
+    let link: SocialAccountLink
+
+    var body: some View {
+        HStack{
+            Image(systemName: "link") 
+                .resizable()
+                .frame(width: 15, height: 15)
+            /* Link("\(link.content)", destination: link.content) */
+            Button("\(link.content)"){
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    openURL(link.content)
+                }
+            }
+        }
+    }
+}
+
 struct ProfileSocialSheet: View {
     var user: User 
 
     var body: some View {
         List {
-            Text("Instagram")
-            Text("Twitter")
-            Text("Letterboxd")
+            ForEach(user.social_accounts, id: \.id){
+                account_link in 
+                    ProfileSocialLink(link: account_link)
+            }
         }
     }
 }
@@ -60,7 +81,6 @@ struct ProfileHeaderView: View {
                     .padding(.vertical, 10)
                     .sheet(isPresented: $socialSheetOpen){
                         ProfileSocialSheet(user: user)
-                            .frame(height: 300)
                             .presentationDetents([.medium, .large])
                     }
                 }

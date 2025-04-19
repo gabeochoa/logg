@@ -17,11 +17,28 @@ struct Book: Identifiable, Hashable {
     var year: Int = 2024
 }
 
+enum SocialAccountType: Int {
+    case link, instagram, twitter, letterboxd
+}
+
+struct SocialAccountLink: Identifiable, Hashable {
+    let id = UUID()
+    let user_id: UUID
+    let account_type: SocialAccountType
+    let content: URL
+
+    init(user_id: UUID, account_type: SocialAccountType, content: URL){
+        self.user_id = user_id
+        self.account_type = account_type
+        self.content = content
+    }
+}
+
 struct User: Identifiable, Hashable {
     let id = UUID()
-    let name: String
-    let pfp: String = "monkey"
-    let bio: String = """
+    var name: String
+    var pfp: String = "monkey"
+    var bio: String = """
 star rating
     1) couldnt finish
     2) finished but dont recommend
@@ -29,6 +46,7 @@ star rating
     4) pretty good
     5) :)
 """
+    var social_accounts: [SocialAccountLink] = []
 }
 
 enum RatingStar: Int {
@@ -41,8 +59,8 @@ struct Review: Identifiable, Hashable {
     let id: UUID = UUID()
     let book_id: UUID
     let user_id: UUID
-    let content: String
-    let rating: RatingStar
+    var content: String
+    var rating: RatingStar
 
     // TODO make a lightweight version so we dont have to load
     // this entire object to make the chart
@@ -55,8 +73,8 @@ struct Review: Identifiable, Hashable {
 }
 
 struct Data {
-    let books: [Book]
-    let users: [User]
+    var books: [Book]
+    var users: [User]
     var reviews: [Review]
 
     init() {
@@ -66,6 +84,19 @@ struct Data {
             User(name: "choicehoney"),
             User(name: "bagelseed"),
             User(name: "hotpapi"),
+        ]
+
+        self.users[0].social_accounts = [
+            SocialAccountLink(
+                user_id: self.users[0].id, 
+                account_type: SocialAccountType.link,
+                content: URL(string: "https://example.com")!
+            ),
+            SocialAccountLink(
+                user_id: self.users[0].id, 
+                account_type: SocialAccountType.letterboxd,
+                content: URL(string: "https://letterboxd.com/choicehoney")!
+            ),
         ]
 
         self.reviews = [
